@@ -23,6 +23,8 @@
 //
 
 import UIKit
+import Datadog
+import DatadogCrashReporting
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDelegate {
@@ -34,6 +36,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        // Setup Datadog
+        Datadog.initialize(
+            appContext: .init(),
+            trackingConsent: .granted,
+            configuration: Datadog.Configuration.builderUsing(
+                rumApplicationID: "<rum-app-id>",
+                clientToken: "<client-token>",
+                environment: "<env>"
+            )
+            .trackUIKitRUMViews()
+            .trackUIKitRUMActions()
+            .trackURLSession(firstPartyHosts: ["httpbin.org"])
+            .enableCrashReporting(using: DDCrashReportingPlugin())
+            .build()
+        )
+
+        Global.rum = RUMMonitor.initialize()
+        Global.sharedTracer = Tracer.initialize(configuration: .init())
+
+        Datadog.debugRUM = true
+        Datadog.verbosityLevel = .debug
+
+        // The original code from Alamofire Example - starting UI:
         let splitViewController = window!.rootViewController as! UISplitViewController
         let navigationController = splitViewController.viewControllers.last as! UINavigationController
         navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
