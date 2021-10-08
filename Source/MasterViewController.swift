@@ -22,6 +22,7 @@
 //  THE SOFTWARE.
 //
 
+import DatadogAlamofireExtension
 import Alamofire
 import UIKit
 
@@ -32,6 +33,7 @@ class MasterViewController: UITableViewController {
 
     var detailViewController: DetailViewController?
 
+    private var alamofire: Alamofire.Session!
     private var reachability: NetworkReachabilityManager!
 
     // MARK: - View Lifecycle
@@ -41,6 +43,12 @@ class MasterViewController: UITableViewController {
 
         navigationItem.titleView = titleImageView
         clearsSelectionOnViewWillAppear = true
+
+        // Instrument Alamofire with Datadog:
+        alamofire = Alamofire.Session(
+            interceptor: DDRequestInterceptor(),
+            eventMonitors: [DDEventMonitor()]
+         )
 
         reachability = NetworkReachabilityManager.default
         monitorReachability()
@@ -56,21 +64,21 @@ class MasterViewController: UITableViewController {
                 switch segue.identifier! {
                 case "GET":
                     detailViewController.segueIdentifier = "GET"
-                    return AF.request("https://httpbin.org/get")
+                    return alamofire.request("https://httpbin.org/get")
                 case "POST":
                     detailViewController.segueIdentifier = "POST"
-                    return AF.request("https://httpbin.org/post", method: .post)
+                    return alamofire.request("https://httpbin.org/post", method: .post)
                 case "PUT":
                     detailViewController.segueIdentifier = "PUT"
-                    return AF.request("https://httpbin.org/put", method: .put)
+                    return alamofire.request("https://httpbin.org/put", method: .put)
                 case "DELETE":
                     detailViewController.segueIdentifier = "DELETE"
-                    return AF.request("https://httpbin.org/delete", method: .delete)
+                    return alamofire.request("https://httpbin.org/delete", method: .delete)
                 case "DOWNLOAD":
                     detailViewController.segueIdentifier = "DOWNLOAD"
                     let destination = DownloadRequest.suggestedDownloadDestination(for: .cachesDirectory,
                                                                                    in: .userDomainMask)
-                    return AF.download("https://httpbin.org/stream/1", to: destination)
+                    return alamofire.download("https://httpbin.org/stream/1", to: destination)
                 default:
                     return nil
                 }
