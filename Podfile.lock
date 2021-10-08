@@ -1,16 +1,39 @@
 PODS:
   - Alamofire (5.4.4)
+  - DatadogSDK (1.7.1):
+    - Kronos (~> 4.2)
+  - DatadogSDKAlamofireExtension (1.7.1):
+    - Alamofire (~> 5.0)
+    - DatadogSDK (= 1.7.1)
+  - DatadogSDKCrashReporting (1.7.1):
+    - DatadogSDK (= 1.7.1)
+    - PLCrashReporter (~> 1.10.0)
+  - Kronos (4.2.1)
+  - PLCrashReporter (1.10.0)
 
 DEPENDENCIES:
   - Alamofire
+  - DatadogSDK
+  - DatadogSDKAlamofireExtension
+  - DatadogSDKCrashReporting
 
 SPEC REPOS:
   trunk:
     - Alamofire
+    - DatadogSDK
+    - DatadogSDKAlamofireExtension
+    - DatadogSDKCrashReporting
+    - Kronos
+    - PLCrashReporter
 
 SPEC CHECKSUMS:
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
+  DatadogSDK: ad8096b2c951f4d3b69ca8c72842a119fc61c600
+  DatadogSDKAlamofireExtension: 909b2334850699f633c587847b390ca828f7decd
+  DatadogSDKCrashReporting: a0ce5944521dc634882158eb65284fffc31cc6a4
+  Kronos: 0ca73a1c00dc9a49a0bab4a6ed42f282562a7058
+  PLCrashReporter: b8c81dcdb3dd7c4247c00b95ada1f1b37d53fde8
 
-PODFILE CHECKSUM: 605a6d6d1d7e223060fe4759db51044727fe6b55
+PODFILE CHECKSUM: 105dcd8de6821dfd122a0420cfa4045bb26c537c
 
-COCOAPODS: 1.10.2
+COCOAPODS: 1.11.2

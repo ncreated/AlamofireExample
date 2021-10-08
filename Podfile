@@ -6,5 +6,8 @@ target 'iOS Example' do
   use_frameworks!
 
   pod 'Alamofire'
+  pod 'DatadogSDK'
+  pod 'DatadogSDKAlamofireExtension'
+  pod 'DatadogSDKCrashReporting'
 
 end
